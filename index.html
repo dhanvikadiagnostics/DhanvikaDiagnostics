@@ -45,9 +45,10 @@
         <div class="container">
             <!-- Search + Customer Support + WhatsApp row -->
             <div class="support-row">
-                <div class="search-input">
-                    <input type="text" placeholder="Thyroid test, Master Health Check Up,… search your test/package here.">
+                <div class="search-input" id="searchWrapper">
+                    <input type="text" id="siteSearch" autocomplete="off" placeholder="Thyroid test, Master Health Check Up,… search your test/package here.">
                     <i class="fas fa-search"></i>
+                    <div class="search-suggestions" id="searchSuggestions" hidden></div>
                 </div>
                 <a href="tel:+918885282637" class="support-box">
                     <i class="fas fa-phone-alt"></i>

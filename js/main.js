@@ -198,4 +198,189 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+
+    // Site Search
+    const PHONE = '+918885282637';
+    const wa = function (text) {
+        return 'https://wa.me/' + PHONE + '?text=' + encodeURIComponent(text);
+    };
+
+    const searchIndex = [
+        // Tests (quick + common)
+        { label: 'Complete Blood Picture (CBP)', meta: '₹ 300 · Test', kind: 'test', target: wa('I want to book Complete Blood Picture (CBP)') },
+        { label: 'HbA1c (Glycated Haemoglobin)', meta: '₹ 499 · Test', kind: 'test', target: wa('I want to book HbA1c (Glycated Haemoglobin)') },
+        { label: 'Thyroid Profile', meta: '₹ 500 · Test', kind: 'test', target: wa('I want to book Thyroid Profile') },
+        { label: 'Lipid Profile', meta: '₹ 550 · Test', kind: 'test', target: wa('I want to book Lipid Profile') },
+        { label: 'Liver Function Profile', meta: '₹ 550 · Test', kind: 'test', target: wa('I want to book Liver Function Profile') },
+        { label: 'Vitamin B12', meta: '₹ 1099 · Test', keywords: 'cyanocobalamin', kind: 'test', target: wa('I want to book Vitamin B12') },
+        { label: 'Vitamin D', meta: 'Test', kind: 'test', target: wa('I want to book Vitamin D test') },
+        { label: 'Kidney Function Test', meta: 'Test', keywords: 'kft creatinine urea', kind: 'test', target: wa('I want to book Kidney Function Test') },
+        { label: 'Blood Sugar (Fasting)', meta: 'Test', keywords: 'fbs glucose diabetes', kind: 'test', target: wa('I want to book Blood Sugar Fasting') },
+        { label: 'Urine Analysis (CUE)', meta: 'Test', keywords: 'urine routine', kind: 'test', target: wa('I want to book Urine Analysis') },
+        { label: 'CRP (C-Reactive Protein)', meta: 'Test', kind: 'test', target: wa('I want to book CRP test') },
+        { label: 'Dengue Profile', meta: 'Test', kind: 'test', target: wa('I want to book Dengue Profile') },
+        { label: 'ECG', meta: 'Test', keywords: 'electrocardiogram heart', kind: 'test', target: wa('I want to book ECG') },
+
+        // Packages
+        { label: 'Basic Health Checkup', meta: '₹ 999 · 30+ Parameters', kind: 'package', target: '#packages' },
+        { label: 'Full Body Checkup', meta: '₹ 1,999 · 60+ Parameters', kind: 'package', target: '#packages' },
+        { label: 'Cardiac Profile', meta: '₹ 2,499 · 40+ Parameters', kind: 'package', keywords: 'heart cardiology', target: '#packages' },
+
+        // Services
+        { label: 'Doctor Consultancy', meta: 'Service', kind: 'service', target: '#services' },
+        { label: 'Home Sample Collection', meta: 'Service', kind: 'service', keywords: 'home collection phlebotomy', target: '#services' },
+        { label: 'Corporate Health Camps', meta: 'Service', kind: 'service', target: '#services' },
+        { label: 'Health Packages', meta: 'Service', kind: 'service', target: '#packages' },
+        { label: 'Digital Reports', meta: 'Service', keywords: 'whatsapp email online', kind: 'service', target: '#services' },
+
+        // Departments
+        { label: 'Hematology & Coagulation', meta: 'Department', kind: 'dept', target: '#departments' },
+        { label: 'Clinical Biochemistry', meta: 'Department', kind: 'dept', target: '#departments' },
+        { label: 'Immunology', meta: 'Department', kind: 'dept', target: '#departments' },
+        { label: 'Serology', meta: 'Department', kind: 'dept', target: '#departments' },
+        { label: 'Microbiology', meta: 'Department', kind: 'dept', target: '#departments' },
+        { label: 'Molecular Biology', meta: 'Department', kind: 'dept', target: '#departments' },
+        { label: 'Histopathology & Cytology', meta: 'Department', kind: 'dept', target: '#departments' },
+        { label: 'Radiology', meta: 'Department', keywords: 'xray x-ray scan', kind: 'dept', target: '#departments' },
+
+        // Page sections
+        { label: 'About Us', meta: 'Page', kind: 'page', target: '#about' },
+        { label: 'Contact', meta: 'Page', kind: 'page', keywords: 'phone email address location', target: '#contact' },
+        { label: 'Testimonials', meta: 'Page', kind: 'page', keywords: 'reviews', target: '#testimonials' }
+    ];
+
+    const ICON = {
+        test: 'fa-vial',
+        package: 'fa-box-open',
+        service: 'fa-stethoscope',
+        dept: 'fa-microscope',
+        page: 'fa-link'
+    };
+
+    const searchInput = document.getElementById('siteSearch');
+    const suggestionsBox = document.getElementById('searchSuggestions');
+    const searchWrapper = document.getElementById('searchWrapper');
+
+    if (searchInput && suggestionsBox && searchWrapper) {
+        let activeIndex = -1;
+        let lastResults = [];
+
+        const escapeHtml = function (s) {
+            return s.replace(/[&<>"']/g, function (c) {
+                return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+            });
+        };
+
+        const highlight = function (text, query) {
+            if (!query) return escapeHtml(text);
+            const re = new RegExp('(' + query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig');
+            return escapeHtml(text).replace(re, '<mark>$1</mark>');
+        };
+
+        const render = function (results, query) {
+            if (!query) {
+                suggestionsBox.hidden = true;
+                suggestionsBox.innerHTML = '';
+                return;
+            }
+            if (results.length === 0) {
+                suggestionsBox.innerHTML = '<div class="search-empty">No results for "' + escapeHtml(query) + '". Try CBP, Thyroid, Full Body, etc.</div>';
+                suggestionsBox.hidden = false;
+                return;
+            }
+            const html = results.map(function (item, i) {
+                const isWa = item.target.indexOf('wa.me') !== -1;
+                const ctaIcon = isWa ? 'fa-brands fa-whatsapp' : 'fa-solid fa-arrow-right';
+                return '' +
+                    '<a class="search-result' + (i === activeIndex ? ' active' : '') + '" data-target="' + escapeHtml(item.target) + '" data-wa="' + (isWa ? '1' : '0') + '" href="' + escapeHtml(item.target) + '"' + (isWa ? ' target="_blank" rel="noopener noreferrer"' : '') + '>' +
+                    '<i class="result-icon fa-solid ' + ICON[item.kind] + '"></i>' +
+                    '<div class="result-text"><div class="result-label">' + highlight(item.label, query) + '</div>' +
+                    '<div class="result-meta">' + escapeHtml(item.meta) + '</div></div>' +
+                    '<i class="result-cta ' + ctaIcon + '"></i>' +
+                    '</a>';
+            }).join('');
+            suggestionsBox.innerHTML = html;
+            suggestionsBox.hidden = false;
+        };
+
+        const runSearch = function () {
+            const q = searchInput.value.trim().toLowerCase();
+            activeIndex = -1;
+            if (!q) {
+                lastResults = [];
+                render([], '');
+                return;
+            }
+            const scored = [];
+            for (let i = 0; i < searchIndex.length; i++) {
+                const item = searchIndex[i];
+                const haystack = (item.label + ' ' + (item.keywords || '') + ' ' + item.meta).toLowerCase();
+                if (haystack.indexOf(q) === -1) continue;
+                let score = 0;
+                if (item.label.toLowerCase().indexOf(q) === 0) score += 10;
+                else if (item.label.toLowerCase().indexOf(q) !== -1) score += 5;
+                else score += 1;
+                scored.push({ item: item, score: score });
+            }
+            scored.sort(function (a, b) { return b.score - a.score; });
+            lastResults = scored.slice(0, 8).map(function (s) { return s.item; });
+            render(lastResults, q);
+        };
+
+        searchInput.addEventListener('input', runSearch);
+        searchInput.addEventListener('focus', function () {
+            if (searchInput.value.trim()) runSearch();
+        });
+
+        searchInput.addEventListener('keydown', function (e) {
+            if (suggestionsBox.hidden || lastResults.length === 0) return;
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                activeIndex = Math.min(activeIndex + 1, lastResults.length - 1);
+                render(lastResults, searchInput.value.trim().toLowerCase());
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                activeIndex = Math.max(activeIndex - 1, 0);
+                render(lastResults, searchInput.value.trim().toLowerCase());
+            } else if (e.key === 'Enter') {
+                if (activeIndex >= 0 && lastResults[activeIndex]) {
+                    e.preventDefault();
+                    selectResult(lastResults[activeIndex]);
+                }
+            } else if (e.key === 'Escape') {
+                suggestionsBox.hidden = true;
+                searchInput.blur();
+            }
+        });
+
+        const selectResult = function (item) {
+            suggestionsBox.hidden = true;
+            searchInput.value = item.label;
+            const isWa = item.target.indexOf('wa.me') !== -1;
+            if (isWa) {
+                window.open(item.target, '_blank', 'noopener,noreferrer');
+            } else {
+                const el = document.querySelector(item.target);
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }
+        };
+
+        suggestionsBox.addEventListener('click', function (e) {
+            const link = e.target.closest('.search-result');
+            if (!link) return;
+            const isWa = link.getAttribute('data-wa') === '1';
+            if (isWa) return;
+            e.preventDefault();
+            const target = link.getAttribute('data-target');
+            const el = document.querySelector(target);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+            suggestionsBox.hidden = true;
+        });
+
+        document.addEventListener('click', function (e) {
+            if (!searchWrapper.contains(e.target)) {
+                suggestionsBox.hidden = true;
+            }
+        });
+    }
 });
