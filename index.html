@@ -5,41 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dhanvika Diagnostics - Trusted Diagnostic Center in Hyderabad</title>
     <meta name="description" content="Dhanvika Diagnostics offers reliable and affordable diagnostic services in Hyderabad. Blood tests, health packages, home sample collection, and more.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Top Bar -->
-    <div class="top-bar">
-        <div class="container">
-            <div class="top-bar-content">
-                <div class="top-bar-left">
-                    <span><i class="fas fa-clock"></i> Mon - Sun: 7:00 AM - 9:00 PM</span>
-                    <span><i class="fas fa-envelope"></i> dhanvikadiagnostics@gmail.com</span>
-                </div>
-                <div class="top-bar-right">
-                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Header -->
     <header class="header" id="header">
         <div class="container">
             <nav class="navbar">
                 <a href="#" class="logo">
-                    <span class="logo-icon"><i class="fas fa-microscope"></i></span>
-                    <div class="logo-text">
-                        <span class="logo-name">Dhanvika</span>
-                        <span class="logo-sub">Diagnostics</span>
-                    </div>
+                    <img src="images/logo.jpeg" alt="Dhanvika Diagnostics" class="logo-img">
                 </a>
                 <ul class="nav-links" id="navLinks">
                     <li><a href="#home" class="active">Home</a></li>
@@ -65,32 +40,81 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-overlay"></div>
+    <!-- Page Content (search row + banner + quick tests) -->
+    <section class="page-content" id="home">
         <div class="container">
-            <div class="hero-content">
-                <h1>Your Trusted Partner in <span class="highlight">Health Diagnostics</span></h1>
-                <p>Accurate results. Affordable prices. Advanced technology. Experience healthcare diagnostics at its best with Dhanvika Diagnostics.</p>
-                <div class="hero-buttons">
-                    <a href="#packages" class="btn btn-primary">View Health Packages</a>
-                    <a href="https://wa.me/+918885282637" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
-                        <i class="fab fa-whatsapp"></i> Book on WhatsApp
-                    </a>
+            <!-- Search + Customer Support + WhatsApp row -->
+            <div class="support-row">
+                <div class="search-input">
+                    <input type="text" placeholder="Thyroid test, Master Health Check Up,… search your test/package here.">
+                    <i class="fas fa-search"></i>
                 </div>
-                <div class="hero-features">
-                    <div class="hero-feature">
-                        <i class="fas fa-home"></i>
-                        <span>Free Home Collection</span>
+                <a href="tel:+918885282637" class="support-box">
+                    <i class="fas fa-phone-alt"></i>
+                    <div>
+                        <span>CUSTOMER SUPPORT</span>
+                        <h2>088852 82637</h2>
                     </div>
-                    <div class="hero-feature">
-                        <i class="fas fa-clock"></i>
-                        <span>Reports in 24 Hrs</span>
+                </a>
+                <a href="https://wa.me/+918885282637" class="whatsapp-box" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>Book My Test</span>
+                </a>
+            </div>
+
+            <!-- Hero Banner -->
+            <div class="hero-banner">
+                <div class="hero-banner-content">
+                    <span class="banner-tag">NABL Certified Diagnostic Centre</span>
+                    <h1>Know Better <span class="highlight">Today</span></h1>
+                    <p>Accurate results. Affordable prices. Advanced technology. Free home sample collection across Hyderabad.</p>
+                    <div class="banner-cta">
+                        <a href="#packages" class="btn btn-primary">View Health Packages</a>
+                        <a href="https://wa.me/+918885282637" class="btn btn-outline-light" target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-whatsapp"></i> Book Now
+                        </a>
                     </div>
-                    <div class="hero-feature">
-                        <i class="fas fa-certificate"></i>
-                        <span>NABL Certified</span>
+                </div>
+                <div class="hero-banner-visual">
+                    <div class="banner-card">
+                        <div class="banner-stat"><strong>1000+</strong><span>Tests Available</span></div>
+                        <div class="banner-stat"><strong>15K+</strong><span>Happy Patients</span></div>
+                        <div class="banner-stat"><strong>NABL</strong><span>Accredited Lab</span></div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Quick Test Pills -->
+            <div class="quick-tests">
+                <div class="quick-test">
+                    <div class="qt-name">Complete Blood Picture (CBP)</div>
+                    <div class="qt-price">&#8377; 300</div>
+                    <a href="https://wa.me/+918885282637?text=Book%20CBP" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Book Now</a>
+                </div>
+                <div class="quick-test">
+                    <div class="qt-name">HbA1c (Glycated Haemoglobin)</div>
+                    <div class="qt-price">&#8377; 499</div>
+                    <a href="https://wa.me/+918885282637?text=Book%20HbA1c" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Book Now</a>
+                </div>
+                <div class="quick-test">
+                    <div class="qt-name">Thyroid Profile</div>
+                    <div class="qt-price">&#8377; 500</div>
+                    <a href="https://wa.me/+918885282637?text=Book%20Thyroid" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Book Now</a>
+                </div>
+                <div class="quick-test">
+                    <div class="qt-name">Lipid Profile</div>
+                    <div class="qt-price">&#8377; 550</div>
+                    <a href="https://wa.me/+918885282637?text=Book%20Lipid" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Book Now</a>
+                </div>
+                <div class="quick-test">
+                    <div class="qt-name">Liver Function Profile</div>
+                    <div class="qt-price">&#8377; 550</div>
+                    <a href="https://wa.me/+918885282637?text=Book%20LFT" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Book Now</a>
+                </div>
+                <div class="quick-test">
+                    <div class="qt-name">Vitamin B12</div>
+                    <div class="qt-price">&#8377; 1099</div>
+                    <a href="https://wa.me/+918885282637?text=Book%20B12" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Book Now</a>
                 </div>
             </div>
         </div>
@@ -521,11 +545,7 @@
             <div class="footer-grid">
                 <div class="footer-col">
                     <a href="#" class="footer-logo">
-                        <span class="logo-icon"><i class="fas fa-microscope"></i></span>
-                        <div class="logo-text">
-                            <span class="logo-name">Dhanvika</span>
-                            <span class="logo-sub">Diagnostics</span>
-                        </div>
+                        <img src="images/logo.jpeg" alt="Dhanvika Diagnostics" class="logo-img footer-logo-img">
                     </a>
                     <p>Providing accessible, accurate, and compassionate diagnostic services with state-of-the-art technology and personalized care.</p>
                     <div class="footer-social">
